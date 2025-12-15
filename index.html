@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Tester - Testa la sicurezza della tua password</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="background-pattern"></div>
+    
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <svg class="logo-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                </svg>
+            </div>
+            <h1 class="title">
+                Password <span class="title-gradient">Tester</span>
+            </h1>
+            <p class="subtitle">Scopri quanto è sicura la tua password</p>
+            <p class="privacy-notice">
+                <svg class="privacy-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                </svg>
+                La tua password non lascia mai il tuo dispositivo
+            </p>
+        </header>
+
+        <!-- Card principale -->
+        <div class="card">
+            <!-- Input Password -->
+            <div class="input-section">
+                <label class="input-label">Inserisci la tua password</label>
+                <div class="input-wrapper">
+                    <input
+                        type="password"
+                        id="passwordInput"
+                        placeholder="Prova la tua password qui..."
+                        class="password-input"
+                    />
+                    <button id="togglePassword" class="toggle-btn">
+                        <svg id="eyeIcon" class="eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Risultati -->
+            <div id="results" class="results hidden">
+                <!-- Strength Bar -->
+                <div class="strength-section">
+                    <div class="strength-header">
+                        <span class="strength-label">Forza Password</span>
+                        <span id="strengthText" class="strength-value"></span>
+                    </div>
+                    <div class="strength-bar-bg">
+                        <div id="strengthBar" class="strength-bar"></div>
+                    </div>
+                </div>
+
+                <!-- Layout a 2 colonne -->
+                <div class="two-columns">
+                    <!-- Colonna Sinistra -->
+                    <div class="column-left">
+                        <!-- Tempo di crack -->
+                        <div class="crack-time-box">
+                            <div class="crack-time-header">
+                                <svg class="clock-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <span>Tempo per craccarla</span>
+                            </div>
+                            <p id="crackTime" class="crack-time-value"></p>
+                        </div>
+
+                        <!-- Password Comune Warning -->
+                        <div id="commonWarning" class="warning-box common-warning hidden">
+                            <div class="warning-content">
+                                <svg class="warning-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                                </svg>
+                                <div>
+                                    <h3>ATTENZIONE!</h3>
+                                    <p>Password troppo comune!</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Errori -->
+                        <div id="errorsBox" class="warning-box errors-box hidden">
+                            <div class="errors-header">
+                                <svg class="warning-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                                </svg>
+                                <h3>Mancano:</h3>
+                            </div>
+                            <ul id="errorsList"></ul>
+                        </div>
+
+                        <!-- Password Forte -->
+                        <div id="strongBox" class="success-box hidden">
+                            <div class="success-content">
+                                <svg class="success-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <div>
+                                    <h3>Password Forte! ✓</h3>
+                                    <p class="success-text">La tua password è robusta!</p>
+                                    
+                                    <div class="caution-box">
+                                        <p class="caution-title">⚠️ Attenzione però!</p>
+                                        <p class="caution-text">Evita di usare:</p>
+                                        <ul class="caution-list">
+                                            <li>• Nome o cognome</li>
+                                            <li>• Data di nascita</li>
+                                            <li>• Nomi di animali/squadre</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Colonna Destra - Checklist -->
+                    <div class="column-right">
+                        <div class="checklist-box">
+                            <h3 class="checklist-title">
+                                <svg class="zap-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                </svg>
+                                Requisiti
+                            </h3>
+                            <div id="checklist" class="checklist-grid"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="empty-state">
+                <svg class="empty-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                </svg>
+                <p class="empty-text">Inizia a digitare per testare la tua password</p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Made with ❤️ by Marchy | La tua privacy è protetta al 100%</p>
+        </footer>
+    </div>
+
+<script src="js/script.js"></script>
+</body>
+</html>
